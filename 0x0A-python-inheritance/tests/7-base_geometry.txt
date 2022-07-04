@@ -1,150 +1,90 @@
-# 7-base_geometry.txt
-# Brennan D Baraban <375@holbertonschool.com>
+>>> BaseGeometry = __import__('7-base_geometry').BaseGeometry
+>>> bg = BaseGeometry()
 
-=============================
-How to Use 7-base_geometry.py
-=============================
+>>> modulo_doc = __import__('7-base_geometry').__doc__
+>>> print(len(modulo_doc) > 0)
+True
 
-This modules defines a base geometry class BaseGeometry.
+>>> class_doc = __import__('7-base_geometry').BaseGeometry.__doc__
+>>> print(len(class_doc) > 0)
+True
 
-Instantiation
-=============
+>>> area_doc = __import__('7-base_geometry').BaseGeometry.area.__doc__
+>>> print(len(area_doc) > 0)
+True
 
-``BaseGeometry`` includes no attributes, and accordingly is initialized 
-with no arguments.
+>>> validate_doc = __import__('7-base_geometry').BaseGeometry.integer_validator.__doc__
+>>> print(len(validate_doc) > 0)
+True
 
-::
+>>> bg.integer_validator("my_int", 12)
+>>>
 
-    >>> BaseGeometry = __import__('7-base_geometry').BaseGeometry
-    >>> bg = BaseGeometry()
-    >>> type(bg)
-    <class '7-base_geometry.BaseGeometry'>
+>>> bg.integer_validator("width", 89)
+>>>
 
-::
+>>> bg.integer_validator("uno", 0)
+Traceback (most recent call last):
+...
+ValueError: uno must be greater than 0
 
-    >>> print(bg) # doctest: +ELLIPSIS
-    <7-base_geometry.BaseGeometry object at ...>
+>>> bg.integer_validator("dos", -1)
+Traceback (most recent call last):
+...
+ValueError: dos must be greater than 0
 
-In fact, any arguments supplied to an instantiation of ``BaseGeometry`` results
-in a TypeError.
+>>> bg.integer_validator("tres", [])
+Traceback (most recent call last):
+...
+TypeError: tres must be an integer
 
-::
+>>> bg.integer_validator("cuatro", {})
+Traceback (most recent call last):
+...
+TypeError: cuatro must be an integer
 
-    >>> bg = BaseGeometry(None)
-    Traceback (most recent call last):
-    TypeError: object() takes no parameters
+>>> bg.integer_validator("cinco", (1, 0))
+Traceback (most recent call last):
+...
+TypeError: cinco must be an integer
 
-Methods
-=======
+>>> bg.integer_validator("seis", "")
+Traceback (most recent call last):
+...
+TypeError: seis must be an integer
 
-``BaseGeometry`` features two methods - ``area(self)`` and 
-``integer_validator(self, name, value)``. ``area(...)`` is not yet
-implemented.
+>>> bg.integer_validator("siete", 5.2)
+Traceback (most recent call last):
+...
+TypeError: siete must be an integer
 
-::
+>>> bg.integer_validator("ocho", 5j)
+Traceback (most recent call last):
+...
+TypeError: ocho must be an integer
 
-    >>> bg = BaseGeometry()
-    >>> print(bg.area) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
-    <bound method BaseGeometry.area of <7-base_geometry.BaseGeometry 
-     object at...>>
+>>> bg.integer_validator("nueve", float('nan'))
+Traceback (most recent call last):
+...
+TypeError: nueve must be an integer
 
-::
+>>> bg.integer_validator("diez", float('inf'))
+Traceback (most recent call last):
+...
+TypeError: diez must be an integer
 
-    >>> bg.area()
-    Traceback (most recent call last):
-    Exception: area() is not implemented
+>>> bg.integer_validator("once", 100e319)
+Traceback (most recent call last):
+...
+TypeError: once must be an integer
 
-The second method, ``integer_validator(...)``, validates the integer value
-of a paramter. The first parameter, ``name``, is the name of the argument to
-check. The second argument, ``value``, is the argument to check.
+>>> bg.integer_validator("doce", -5.2)
+Traceback (most recent call last):
+...
+TypeError: doce must be an integer
 
-::
+>>> bg.integer_validator("trece", 0b010101)
+>>>
 
-    >>> print(bg.integer_validator) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
-    <bound method BaseGeometry.integer_validator of <7-base_geometry.BaseGeometry 
-    object at...>>
-
-If ``value`` is a valid integer, the function does nothing.
-
-::
-
-
-   >>> bg.integer_validator("valid number", 1)
-
-But, if ``value`` is not an integer, a ``TypeError`` is raised.
-
-::
-
-    >>> bg.integer_validator("invalid number", "number")
-    Traceback (most recent call last):
-    TypeError: invalid number must be an integer
-
-::
-
-    >>> bg.integer_validator("another invalid", True)
-    Traceback (most recent call last):
-    TypeError: another invalid must be an integer
-
-::
-
-    >>> bg.integer_validator("invalid tuple", (1,))
-    Traceback (most recent call last):
-    TypeError: invalid tuple must be an integer
-
-::
-
-    >>> bg.integer_validator("and another", [3])
-    Traceback (most recent call last):
-    TypeError: and another must be an integer
-
-::
-
-    >>> bg.integer_validator("more invalid testing", {3, 4})
-    Traceback (most recent call last):
-    TypeError: more invalid testing must be an integer
-
-::
-
-    >>> bg.integer_validator("absolutely every possible invalid", None)
-    Traceback (most recent call last):
-    TypeError: absolutely every possible invalid must be an integer
-
-And if ``value`` is an integer, but less than or equal to zero, a ValueError
-is raised.
-
-::
-
-    >>> bg.integer_validator("invalid int", -1)
-    Traceback (most recent call last):
-    ValueError: invalid int must be greater than 0
-
-::
-
-    >>> bg.integer_validator("invalid int", 0)
-    Traceback (most recent call last):
-    ValueError: invalid int must be greater than 0
-
-Both ``name`` and ``value`` must be provided. Otherwise, a TypeError is raised.
-
-::
-
-    >>> bg.integer_validator() # doctest: +NORMALIZE_WHITESPACE
-    Traceback (most recent call last):
-    TypeError: integer_validator() missing 2 required positional arguments: 
-    'name' and 'value'
-
-::
-
-    >>> bg.integer_validator(None) # doctest: +NORMALIZE_WHITESPACE
-    Traceback (most recent call last):
-    TypeError: integer_validator() missing 1 required positional argument: 
-    'value'
-
-The method assumes the paramter ``name`` will be a string, but ``name`` of any
-type will be printed.
-
-::
-
-    >>> bg.integer_validator({"a": 1}, (1, 2))
-    Traceback (most recent call last):
-    TypeError: {'a': 1} must be an integer
+>>> bg.integer_validator("catorce", 0xAF56)
+>>>
