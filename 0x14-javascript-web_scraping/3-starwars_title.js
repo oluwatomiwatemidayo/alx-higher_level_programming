@@ -9,3 +9,4 @@ request(url + movieId + '/', function (error, response, body) {
     const movies = JSON.parse(body);
     console.log(movies.title);
   }
+});
